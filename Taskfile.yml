@@ -17,6 +17,16 @@ tasks:
     cmds:
       - docker compose exec mongosh mongosh 'mongodb://localhost:27017/{{.DB}}'
 
+  env-up:
+    desc: "Start the services"
+    cmds:
+      - docker compose up -d
+
+  env-down:
+    desc: "Stop the services"
+    cmds:
+      - docker compose down
+
   import:
     desc: "Import sample data"
     cmds:
@@ -29,12 +39,8 @@ tasks:
           --headerline 
           --file=/data/db/sample/cameras.csv
 
-  up:
-    desc: "Start the services"
+  format:
+    desc: "Format the code"
     cmds:
-      - docker compose up -d
-
-  down:
-    desc: "Stop the services"
-    cmds:
-      - docker compose down
+      - ./bin/gci write pkg --skip-generated -s "standard,default,prefix(github.com/w84thesun/film-camera-database)"
+      - ./bin/gci write cmd --skip-generated -s "standard,default,prefix(github.com/w84thesun/film-camera-database)"

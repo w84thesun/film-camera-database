@@ -1,7 +1,7 @@
 package routes
 
-import "film-camera-database/pkg/domain"
+import "net/http"
 
-func GetCameras() ([]domain.Camera, error) {
+func (h *Handler) GetCameras(w http.ResponseWriter, r *http.Request) {
 
 }
