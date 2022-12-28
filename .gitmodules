@@ -1,0 +1,3 @@
+[submodule "film-camera-database-sample"]
+	path = film-camera-database-sample
+	url = https://github.com/w84thesun/film-camera-database-sample

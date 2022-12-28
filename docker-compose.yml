@@ -1,0 +1,36 @@
+---
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:15.1
+    container_name: fcdb_postgres
+    command: postgres -c 'max_connections=200'
+    ports:
+      - 5432:5432
+    environment:
+      - TZ=UTC
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_DB=ferretdb
+
+  mongosh:
+    image: mongo:6.0.3
+    container_name: fcdb_mongosh
+    restart: unless-stopped
+    environment:
+      - TZ=UTC
+
+  ferretdb:
+    image: ghcr.io/ferretdb/ferretdb:latest
+    container_name: fcdb_ferretdb
+    restart: unless-stopped
+    depends_on: [ "postgres", "mongosh" ]
+    ports:
+      - '27017:27017'
+    environment:
+      - FERRETDB_POSTGRESQL_URL=postgres://ferret@postgres:5432/ferretdb
+      - TZ=UTC
+
+networks:
+  default:
+    name: ferretdb
