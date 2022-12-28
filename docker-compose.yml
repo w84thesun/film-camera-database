@@ -17,6 +17,8 @@ services:
     image: mongo:6.0.3
     container_name: fcdb_mongosh
     restart: unless-stopped
+    volumes:
+      - ./sample:/data/db/sample
     environment:
       - TZ=UTC
 

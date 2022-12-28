@@ -1,0 +1,39 @@
+---
+version: 3
+
+vars:
+  DB: film-cameras
+  COLLECTION: cameras
+
+tasks:
+  tools:
+    desc: "Install development tools"
+    dir: tools
+    cmds:
+      - go generate -x
+
+  mongosh:
+    desc: "Run mongosh"
+    cmds:
+      - docker compose exec mongosh mongosh 'mongodb://localhost:27017/{{.DB}}'
+
+  import:
+    desc: "Import sample data"
+    cmds:
+      - cmd: >
+          docker compose exec mongosh mongoimport 
+          --db {{.DB}}
+          --collection {{.COLLECTION}} 
+          --type=csv 
+          --headerline 
+          --file=/data/db/sample/cameras.csv
+
+  up:
+    desc: "Start the services"
+    cmds:
+      - docker compose up -d
+
+  down:
+    desc: "Stop the services"
+    cmds:
+      - docker compose down
