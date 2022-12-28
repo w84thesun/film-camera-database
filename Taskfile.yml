@@ -21,7 +21,8 @@ tasks:
     desc: "Import sample data"
     cmds:
       - cmd: >
-          docker compose exec mongosh mongoimport 
+          docker run --volume={{.PWD}}/sample:/data/db/sample --rm -it --network=ferretdb --entrypoint=mongoimport mongo:6.0.3
+          --uri 'mongodb://ferretdb/{{.DB}}'
           --db {{.DB}}
           --collection {{.COLLECTION}} 
           --type=csv 

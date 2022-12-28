@@ -11,26 +11,18 @@ services:
     environment:
       - TZ=UTC
       - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_USER=ferretdb
       - POSTGRES_DB=ferretdb
-
-  mongosh:
-    image: mongo:6.0.3
-    container_name: fcdb_mongosh
-    restart: unless-stopped
-    volumes:
-      - ./sample:/data/db/sample
-    environment:
-      - TZ=UTC
 
   ferretdb:
     image: ghcr.io/ferretdb/ferretdb:latest
     container_name: fcdb_ferretdb
     restart: unless-stopped
-    depends_on: [ "postgres", "mongosh" ]
+    depends_on: [ "postgres" ]
     ports:
       - '27017:27017'
     environment:
-      - FERRETDB_POSTGRESQL_URL=postgres://ferret@postgres:5432/ferretdb
+      - FERRETDB_POSTGRESQL_URL=postgres://ferretdb@postgres:5432/ferretdb
       - TZ=UTC
 
 networks:
