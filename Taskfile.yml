@@ -44,3 +44,14 @@ tasks:
     cmds:
       - ./bin/gci write pkg --skip-generated -s "standard,default,prefix(github.com/w84thesun/film-camera-database)"
       - ./bin/gci write cmd --skip-generated -s "standard,default,prefix(github.com/w84thesun/film-camera-database)"
+
+  lint:
+    desc: "Lint the code"
+    cmds:
+      - ./bin/golangci-lint run
+
+  run:
+    desc: "Run the application"
+    dir: cmd/fcdb
+    cmds:
+      - go run main.go --mongo-uri 'mongodb://localhost:27017/{{.DB}}' --listen-addr ':8080'
